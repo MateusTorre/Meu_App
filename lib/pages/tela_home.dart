@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/card_icone.dart';
+import 'tela_perfil.dart';
+import 'tela_configuracoes.dart';
+import 'tela_favoritos.dart';
 
 class TelaHome extends StatefulWidget {
   const TelaHome({super.key});
@@ -9,14 +12,50 @@ class TelaHome extends StatefulWidget {
 }
 
 class _TelaHomeState extends State<TelaHome> {
-  // Variável que armazena o texto dinâmico na tela
   String mensagem = "Clique no botão para explorar!";
+
+  
+  void _abrirModalAjuda(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          height: 220,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Text(
+                'Central de Atendimento 🛠️',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.purple),
+              ),
+              const Text(
+                'Nosso suporte funciona 24 horas por dia. Deseja abrir um chamado?',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.purple, foregroundColor: Colors.white),
+                onPressed: () {
+                  Navigator.pop(context); 
+                },
+                child: const Text('Fechar'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Meu App de Icones', style: TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
+        title: const Text('Meu App de Icones', style: TextStyle(color: Colors.white)),
         backgroundColor: const Color.fromARGB(255, 60, 88, 179),
         centerTitle: true,
       ),
@@ -24,8 +63,6 @@ class _TelaHomeState extends State<TelaHome> {
         child: Column(
           children: [
             const SizedBox(height: 16),
-            
-            // Texto superior que exibe a mensagem dinâmica na tela
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
@@ -34,12 +71,12 @@ class _TelaHomeState extends State<TelaHome> {
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 0, 0, 0),
+                  color: Colors.black,
                 ),
               ),
             ),
             
-            // Card 1: Perfil
+            
             CardIcone(
               icone: Icons.person,
               titulo: 'Perfil',
@@ -50,34 +87,32 @@ class _TelaHomeState extends State<TelaHome> {
                 setState(() {
                   mensagem = 'Você clicou em Perfil';
                 });
-
-              onPressed(){
-
                 Navigator.push(
-                   context,
-                   MaterialPageRoute(
-                       builder: (context) => TelaPerfil(),
-               ),
-                  );
-              }
+                  context,
+                  MaterialPageRoute(builder: (context) => const TelaPerfil()),
+                );
               },
             ),
 
-            // Card 2: Configurações
+        
             CardIcone(
               icone: Icons.settings,
               titulo: 'Configurações',
               descricao: 'Ajuste as preferências e segurança do app.',
               textoBotao: 'Abrir Ajustes',
-              cor: Colors.orange,
+              cor: const Color.fromARGB(255, 110, 110, 110),
               aoClicar: () {
                 setState(() {
                   mensagem = 'Você clicou em Configurações';
                 });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TelaConfiguracoes()),
+                );
               },
             ),
 
-            // Card 3: Favoritos
+            
             CardIcone(
               icone: Icons.favorite,
               titulo: 'Favoritos',
@@ -88,10 +123,14 @@ class _TelaHomeState extends State<TelaHome> {
                 setState(() {
                   mensagem = 'Você clicou em Favoritos';
                 });
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TelaFavoritos()),
+                );
               },
             ),
 
-            // Card 4: Ajuda
+            
             CardIcone(
               icone: Icons.help,
               titulo: 'Ajuda',
@@ -102,29 +141,25 @@ class _TelaHomeState extends State<TelaHome> {
                 setState(() {
                   mensagem = 'Você clicou em Ajuda';
                 });
+                _abrirModalAjuda(context);
               },
             ),
 
             const SizedBox(height: 24),
-
-            
             const Padding(
-                padding: EdgeInsets.only(bottom: 24.0),
-                child: Text(
+              padding: EdgeInsets.only(bottom: 24.0),
+              child: Text(
                 'Desenvolvido por: Mateus Torres',
-                   style: TextStyle(
-                   fontSize: 14,
-                   fontStyle: FontStyle.italic,
-                   color: Colors.grey,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.grey,
                 ),
+              ),
             ),
-          ),
-
           ],
         ),
       ),
-      
-   
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
